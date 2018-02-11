@@ -23,7 +23,7 @@ $hostname = $sysinfo.Name+"."+$sysinfo.Domain
 $hosttype = $sysinfo.model
 Write-Output "  Report running on $hostname " >> $Report_File
 Write-Output "  The system is $hosttype" >> $Report_File
-Write-Output "  Domain Controller list: "
+Write-Output "  Domain Controller list: " >> $Report_File
 Get-DomainController | Format-Table dnshostname,Adsite >> $Report_File
 Write-Output ""
 
@@ -163,7 +163,7 @@ $msgString = "Collecting data about Exchange Server"
 Write-Progress -Activity $ProgressActivity -Status $msgString -PercentComplete 27
 Write-Verbose $msgString
 Write-Output "Group By Site: " >> $Report_File
-Get-ExchangeServer | Group-Object -property:Site | Format-List >> $Report_File
+Get-ExchangeServer | Group-Object -property:Site | Format-List Name,Count,Group >> $Report_File
 $msgString = "Collecting data about Exchange Server"
 Write-Output "" >> $Report_File
 Write-Output "Group By Role: " >> $Report_File
@@ -171,22 +171,22 @@ $msgString = "Collecting data about Exchange Server"
 Write-Progress -Activity $ProgressActivity -Status $msgString -PercentComplete 29
 Write-Verbose $msgString
 Write-Output " Client Access Server: " >> $Report_File
-Get-ExchangeServer | Where-Object {$_.ServerRole -like "*ClientAccess*"} | Group-Object -property:ServerRole | Format-List>> $Report_File
+Get-ExchangeServer | Where-Object {$_.ServerRole -like "*ClientAccess*"} | Group-Object -property:ServerRole | Format-List Name,Count,Group >> $Report_File
 $msgString = "Collecting data about Exchange Server"
 Write-Progress -Activity $ProgressActivity -Status $msgString -PercentComplete 31
 Write-Verbose $msgString
 Write-Output " Hub Transport Server: " >> $Report_File
-Get-ExchangeServer | Where-Object {$_.ServerRole -like "*HubTransport*"} | Group-Object -property:ServerRole | Format-List >> $Report_File
+Get-ExchangeServer | Where-Object {$_.ServerRole -like "*HubTransport*"} | Group-Object -property:ServerRole | Format-List Name,Count,Group >> $Report_File
 $msgString = "Collecting data about Exchange Server"
 Write-Progress -Activity $ProgressActivity -Status $msgString -PercentComplete 33
 Write-Verbose $msgString
 Write-Output " Mailbox Server: " >> $Report_File
-Get-ExchangeServer | Where-Object {$_.ServerRole -like '*Mailbox*'} | Group-Object -property:ServerRole  | Format-List >> $Report_File
+Get-ExchangeServer | Where-Object {$_.ServerRole -like '*Mailbox*'} | Group-Object -property:ServerRole  | Format-List Name,Count,Group >> $Report_File
 $msgString = "Collecting data about Exchange Server"
 Write-Progress -Activity $ProgressActivity -Status $msgString -PercentComplete 35
 Write-Verbose $msgString
 Write-Output " Edge Server: " >> $Report_File 
-Get-ExchangeServer | Where-Object {$_.ServerRole -like '*Edge*'} | Group-Object -property:ServerRole | Format-List >> $Report_File
+Get-ExchangeServer | Where-Object {$_.ServerRole -like '*Edge*'} | Group-Object -property:ServerRole | Format-List Name,Count,Group >> $Report_File
 Write-Output "" >> $Report_File
 
 # Get Mailbox database information
